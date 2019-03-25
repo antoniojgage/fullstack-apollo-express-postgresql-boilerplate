@@ -3,7 +3,7 @@ import Sequelize from 'sequelize';
 let sequelize;
 if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
-    dialect: 'postgres',
+    dialect: 'mysql',
   });
 } else {
   sequelize = new Sequelize(
@@ -11,7 +11,7 @@ if (process.env.DATABASE_URL) {
     process.env.DATABASE_USER,
     process.env.DATABASE_PASSWORD,
     {
-      dialect: 'postgres',
+      dialect: 'mysql',
     },
   );
 }
