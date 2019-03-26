@@ -1,0 +1,3 @@
+INSERT INTO blogger.messages (id, text, createdAt, updatedAt, userId) VALUES (1, 'Published the Road to learn React', '2019-03-26 19:28:15', '2019-03-26 19:28:14', 1);
+INSERT INTO blogger.messages (id, text, createdAt, updatedAt, userId) VALUES (2, 'Happy to release ...', '2019-03-26 19:28:16', '2019-03-26 19:28:14', 2);
+INSERT INTO blogger.messages (id, text, createdAt, updatedAt, userId) VALUES (3, 'Published a complete ...', '2019-03-26 19:28:17', '2019-03-26 19:28:14', 2);

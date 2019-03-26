@@ -1,0 +1,2 @@
+INSERT INTO blogger.users (id, username, email, password, role, createdAt, updatedAt) VALUES (1, 'rwieruch', 'hello@robin.com', '$2b$10$pfcoYIbGK9r2dgFBENKi2.sCAvPOF/EcRXnn1XKRV7ooJJ0KlZcYW', 'ADMIN', '2019-03-26 19:28:14', '2019-03-26 19:28:14');
+INSERT INTO blogger.users (id, username, email, password, role, createdAt, updatedAt) VALUES (2, 'ddavids', 'hello@david.com', '$2b$10$b1c4gfbjIerfCyoOv7Yj9.cir1bP6bBuWrDTP4R8xUPjOlQfdKNoK', null, '2019-03-26 19:28:14', '2019-03-26 19:28:14');

@@ -1,0 +1,1 @@
+INSERT INTO blogger.Authors (id, name, createdAt, updatedAt) VALUES (1, 'Batman', '2018-11-27 03:23:31', '2018-11-27 03:23:31');

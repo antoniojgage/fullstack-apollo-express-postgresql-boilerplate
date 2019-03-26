@@ -1,7 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { combineResolvers } from 'graphql-resolvers';
-import { AuthenticationError, UserInputError } from 'apollo-server';
-
 import { isAdmin, isAuthenticated } from './authorization';
 
 const createToken = async (user, secret, expiresIn) => {
@@ -10,21 +7,35 @@ const createToken = async (user, secret, expiresIn) => {
     expiresIn,
   });
 };
-
+const knex = require('knex')({
+  client: 'mysql',
+  debug: false,
+  connection: {
+    host: '127.0.0.1',
+    database: `blogger`,
+    user: `root`,
+    charset: 'utf8',
+  },
+});
 export default {
   Query: {
-    users: async (parent, args, { models }) => {
-      return await models.User.findAll();
+    users: async (parent, args) => {
+      return await knex.select().from('users');
     },
-    user: async (parent, { id }, { models }) => {
-      return await models.User.findById(id);
+    user: async (parent, { id }) => {
+      return await knex
+        .select()
+        .from('users')
+        .where('id', id);
     },
-    me: async (parent, args, { models, me }) => {
+    me: async (parent, args, { me }) => {
       if (!me) {
         return null;
       }
-
-      return await models.User.findById(me.id);
+      return await knex
+        .select()
+        .from('users')
+        .where('id', me.id);
     },
   },
 
@@ -34,7 +45,7 @@ export default {
       { username, email, password },
       { models, secret },
     ) => {
-      const user = await models.User.create({
+      const user = await knex('user').insert({
         username,
         email,
         password,
@@ -42,54 +53,27 @@ export default {
 
       return { token: createToken(user, secret, '30m') };
     },
-
-    signIn: async (
-      parent,
-      { login, password },
-      { models, secret },
-    ) => {
-      const user = await models.User.findByLogin(login);
-
-      if (!user) {
-        throw new UserInputError(
-          'No user found with this login credentials.',
-        );
-      }
-
-      const isValid = await user.validatePassword(password);
-
-      if (!isValid) {
-        throw new AuthenticationError('Invalid password.');
-      }
-
-      return { token: createToken(user, secret, '30m') };
-    },
-
-    updateUser: combineResolvers(
-      isAuthenticated,
-      async (parent, { username }, { models, me }) => {
-        const user = await models.User.findById(me.id);
-        return await user.update({ username });
-      },
-    ),
-
-    deleteUser: combineResolvers(
-      isAdmin,
-      async (parent, { id }, { models }) => {
-        return await models.User.destroy({
-          where: { id },
-        });
-      },
-    ),
   },
 
   User: {
-    messages: async (user, args, { models }) => {
-      return await models.Message.findAll({
-        where: {
-          userId: user.id,
-        },
-      });
+    //GAGE-This function is doing the left JOIN when we run the query:
+    /*
+        {users{
+          id
+          username
+          email
+          role
+          messages{
+        id
+            text
+          }
+        }}
+  */
+    messages: async (user, args) => {
+      return await knex
+        .select()
+        .from('users')
+        .leftJoin('messages', 'messages.userId', user.id);
     },
   },
 };
