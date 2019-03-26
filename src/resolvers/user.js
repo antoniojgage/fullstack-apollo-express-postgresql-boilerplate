@@ -7,6 +7,7 @@ const createToken = async (user, secret, expiresIn) => {
     expiresIn,
   });
 };
+
 const knex = require('knex')({
   client: 'mysql',
   debug: false,
@@ -17,6 +18,7 @@ const knex = require('knex')({
     charset: 'utf8',
   },
 });
+
 export default {
   Query: {
     users: async (parent, args) => {
@@ -40,15 +42,25 @@ export default {
   },
 
   Mutation: {
+    //Gage- This function is a test signup created at and updatedat is mandatory
+    /*
+    # mutation{
+    #   signUp(username:"antoniojgage2", email:"antoniojgage@gmail.com2", password:"testTest"){
+    #     token
+    #   }
+    # }
+    */
     signUp: async (
       parent,
       { username, email, password },
-      { models, secret },
+      { secret },
     ) => {
-      const user = await knex('user').insert({
+      const user = await knex('users').insert({
         username,
         email,
         password,
+        createdAt: '2019-03-26 19:28:17',
+        updatedAt: '2019-03-26 19:28:17',
       });
 
       return { token: createToken(user, secret, '30m') };
