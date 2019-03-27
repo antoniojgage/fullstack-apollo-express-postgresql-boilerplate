@@ -42,7 +42,7 @@ export default {
   },
 
   Mutation: {
-    //Gage- This function is a test signup created at and updatedat is mandatory
+    //Gage- This function is a test signup created at and updatedate is mandatory be sure to have a secret in your .env unique values are mandatory
     /*
     # mutation{
     #   signUp(username:"antoniojgage2", email:"antoniojgage@gmail.com2", password:"testTest"){
