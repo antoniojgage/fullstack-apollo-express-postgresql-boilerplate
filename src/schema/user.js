@@ -1,5 +1,5 @@
 import { gql } from 'apollo-server-express';
-
+//this file is serving as our model. This is why we do not need a Bookshelf or Sequlize model. The alternative is doing further within the resolver
 export default gql`
   #The first part(Query) of this query is to allow the query to place what is mandatory on request.
   extend type Query {

@@ -62,8 +62,10 @@ export default {
         createdAt: '2019-03-26 19:28:17',
         updatedAt: '2019-03-26 19:28:17',
       });
-
-      return { token: createToken(user, secret, '30m') };
+      console.log(
+        `Received username: ${username} & email: ${email} to save in the DB`,
+      );
+      return { token: createToken(user, process.env.SECRET, '30m') };
     },
   },
 
